@@ -1,8 +1,8 @@
 {
-  "name": "blogest",
+  "name": "react-router-redux",
   "version": "0.0.1",
   "description": "",
-  "main": "webpack.config.js",
+  "main": "server.js",
   "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.22.1",
@@ -11,9 +11,7 @@
     "babel-preset-react": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
     "css-loader": "^0.26.1",
-    "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "^0.10.0",
-    "html-loader": "^0.4.4",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-hot-loader": "^3.0.0-beta.6",
@@ -25,8 +23,7 @@
     "webpack-hot-middleware": "^2.17.0"
   },
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "author": "peilan",
   "license": "ISC"

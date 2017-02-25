@@ -1,22 +1,29 @@
-var path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const path = require('path');
 const webpack = require('webpack')
 module.exports = {
-  entry: [
-    'react-hot-loader/patch',
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-    path.resolve(__dirname, './source/index')
-  ],
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, './lib'),
-    publicPath: '/static/',
+  entry: {
+    app:[
+      'react-hot-loader/patch',
+      'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+      path.resolve(__dirname, './source/index')
+    ],
+    vendor:[
+      'react',
+      'react-dom',
+      'react-hot-loader',
+      'react-router'
+    ]
   },
-  devtool: 'inline-source-map',
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, './lib'),
+    publicPath: '/lib/',
+  },
   module: {
     rules: [{
         test: /\.js?$/,
-        use: ['babel-loader']
+        use: ['babel-loader'],
+        exclude:path.resolve(__dirname, 'node_modules')
       }, {
         test: /\.css$/,
         use: [
@@ -31,15 +38,6 @@ module.exports = {
         ]
       },
       {
-        test: /\.html$/,
-        use: [{
-          loader: 'html-loader',
-          query: {
-            minimize: true
-          }
-        }]
-      },
-      {
         test: /\.(png|jpg)$/,
         use: [{
           loader: 'url-loader',
@@ -51,9 +49,16 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
-    new ExtractTextPlugin('bundle.css'),
-    new webpack.HotModuleReplacementPlugin()
-  ],
-  stats: "errors-only"
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      filename: 'vendor.js',
+      name: 'vendor',
+      minChunks: Infinity
+    }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: '[file].map',
+      exclude: ['vendor.js']
+    }),
+  ]
 };
